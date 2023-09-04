@@ -35,6 +35,10 @@ void AppendVersionString(std::string* content) {
                         GetPackagerProjectUrl().c_str(), version.c_str());
 }
 
+bool SortByOrderNumber(const MediaPlaylist* a, const MediaPlaylist* b) {
+  return a->order_number() < b->order_number();
+}
+
 // This structure roughly maps to the Variant stream in HLS specification.
 // Each variant specifies zero or one audio group and zero or one text group.
 struct Variant {
@@ -453,6 +457,9 @@ void AppendPlaylists(const std::string& default_audio_language,
     if (video_playlists.empty())
       break;
     content->append("\n");
+
+    video_playlists.sort(SortByOrderNumber);
+
     for (const auto& playlist : video_playlists) {
       BuildStreamInfTag(*playlist, variant, base_url, content);
     }
