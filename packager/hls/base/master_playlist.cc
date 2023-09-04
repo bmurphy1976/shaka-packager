@@ -456,16 +456,15 @@ void AppendPlaylists(const std::string& default_audio_language,
   for (const auto& variant : variants) {
     if (video_playlists.empty())
       break;
-    content->append("\n");
-
     video_playlists.sort(SortByOrderNumber);
-
+    content->append("\n");
     for (const auto& playlist : video_playlists) {
       BuildStreamInfTag(*playlist, variant, base_url, content);
     }
   }
 
   if (!iframe_playlists.empty()) {
+    iframe_playlists.sort(SortByOrderNumber);
     content->append("\n");
     for (const auto& playlist : iframe_playlists) {
       // I-Frame playlists do not have variant. Just use the default.
