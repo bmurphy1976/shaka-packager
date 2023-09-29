@@ -368,7 +368,9 @@ void BuildMediaTags(
     std::string* out) {
   for (const auto& group : groups) {
     const std::string& group_id = group.first;
-    const auto& playlists = group.second;
+    std::list<const MediaPlaylist*> playlists = group.second;
+
+    playlists.sort(SortByOrderNumber);
 
     // Tracks the language of the playlist in this group.
     // According to HLS spec: https://goo.gl/MiqjNd 4.3.4.1.1. Rendition Groups
